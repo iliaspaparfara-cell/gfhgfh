@@ -1,7 +1,8 @@
 package com.example.utilitymod.module;
 
 import com.example.utilitymod.module.impl.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModuleManager {
     private final List<Module> modules = new ArrayList<Module>();
