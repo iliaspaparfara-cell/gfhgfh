@@ -10,8 +10,8 @@ public class ModuleManager {
     public ModuleManager() {
         modules.add(new AimAssist());
         modules.add(new AutoClicker());
-        modules.add(new AutoClicker());
         modules.add(new Reach());
+        modules.add(new Velocity());
         modules.add(new Sprint());
         modules.add(new Timer());
         modules.add(new FastPlace());
