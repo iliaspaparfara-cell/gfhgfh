@@ -1,0 +1,8 @@
+[{
+  "modid": "utilitymod",
+  "name": "Utility Mod",
+  "description": "Modular utility client with ClickGUI.",
+  "version": "${version}",
+  "mcversion": "1.8.9",
+  "authorList": ["you"]
+}]
