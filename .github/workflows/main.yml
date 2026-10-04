@@ -10,8 +10,12 @@ jobs:
         with:
           distribution: temurin
           java-version: 8
-      - run: chmod +x gradlew
-      - run: ./gradlew setupCIWorkspace build --no-daemon
+      - name: Install Gradle 2.14.1
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-2.14.1-bin.zip
+          unzip -q gradle-2.14.1-bin.zip
+          echo "$PWD/gradle-2.14.1/bin" >> $GITHUB_PATH
+      - run: gradle setupCIWorkspace build --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: UtilityMod
