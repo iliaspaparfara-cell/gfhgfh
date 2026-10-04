@@ -15,6 +15,7 @@ public class ModuleManager {
         modules.add(new Sprint());
         modules.add(new Timer());
         modules.add(new FastPlace());
+        modules.add(new Eagle());
         modules.add(new Fullbright());
         modules.add(new ESP());
         modules.add(new Tracers());
