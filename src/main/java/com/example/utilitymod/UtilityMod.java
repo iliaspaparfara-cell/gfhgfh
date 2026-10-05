@@ -22,6 +22,12 @@ public class UtilityMod {
     public void init(FMLInitializationEvent e) {
         modules = new ModuleManager();
         clickGUI = new ClickGUI();
+
+        Config.load();
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() { Config.save(); }
+        });
+
         MinecraftForge.EVENT_BUS.register(this);
     }
 
