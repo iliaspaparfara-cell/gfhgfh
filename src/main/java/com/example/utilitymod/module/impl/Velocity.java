@@ -2,12 +2,8 @@ package com.example.utilitymod.module.impl;
 
 import com.example.utilitymod.module.*;
 import com.example.utilitymod.setting.NumberSetting;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import java.util.Random;
 
 public class Velocity extends Module {
@@ -17,37 +13,20 @@ public class Velocity extends Module {
     private final NumberSetting chance = add(new NumberSetting("Chance %", 100, 0, 100, 5));
     private final Random rand = new Random();
 
-    public Velocity() {
-        super("Velocity", Category.COMBAT);
-        // must always be listening so the packet handler is attached on every connection
-        MinecraftForge.EVENT_BUS.register(new Object() {
-            @SubscribeEvent
-            public void onConnect(FMLNetworkEvent.ClientConnectedToServerEvent e) {
-                try {
-                    e.manager.channel().pipeline().addBefore("packet_handler", "utilitymod_velocity", new Handler());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-    }
+    public Velocity() { super("Velocity", Category.COMBAT); }
 
-    private class Handler extends ChannelInboundHandlerAdapter {
-        @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            if (isEnabled() && msg instanceof S12PacketEntityVelocity && mc.thePlayer != null) {
-                S12PacketEntityVelocity p = (S12PacketEntityVelocity) msg;
-                if (p.getEntityID() == mc.thePlayer.getEntityId() && rand.nextInt(100) < chance.get()) {
-                    double h = horizontal.get() / 100.0;
-                    double v = vertical.get() / 100.0;
-                    msg = new S12PacketEntityVelocity(p.getEntityID(),
-                            p.getMotionX() / 8000.0 * h,
-                            p.getMotionY() / 8000.0 * v,
-                            p.getMotionZ() / 8000.0 * h);
-                }
-            }
-            super.channelRead(ctx, msg);
-        }
+    @SubscribeEvent
+    public void onLivingUpdate(LivingEvent.LivingUpdateEvent e) {
+        if (!inGame() || e.entityLiving != mc.thePlayer) return;
+        // hurtTime is at its max on the first tick after taking a hit
+        if (mc.thePlayer.hurtTime != mc.thePlayer.maxHurtTime || mc.thePlayer.maxHurtTime <= 0) return;
+        if (rand.nextInt(100) >= chance.get()) return;
+
+        double h = horizontal.get() / 100.0;
+        double v = vertical.get() / 100.0;
+        mc.thePlayer.motionX *= h;
+        mc.thePlayer.motionZ *= h;
+        if (mc.thePlayer.motionY > 0) mc.thePlayer.motionY *= v;
     }
 
     @Override public String getSuffix() { return (int) horizontal.get() + "% " + (int) vertical.get() + "%"; }
