@@ -1,6 +1,5 @@
 package com.example.utilitymod.gui;
 
-import com.example.utilitymod.Config;
 import com.example.utilitymod.UtilityMod;
 import com.example.utilitymod.module.*;
 import com.example.utilitymod.setting.*;
@@ -207,15 +206,9 @@ public class ClickGUI extends GuiScreen {
                 binding.setKey(key);
             }
             binding = null;
-            Config.save();
             return;
         }
         if (key == Keyboard.KEY_ESCAPE || key == UtilityMod.GUI_KEY) mc.displayGuiScreen(null);
-    }
-
-    @Override
-    public void onGuiClosed() {
-        Config.save();
     }
 
     private boolean in(int mx, int my, int x, int y, int w, int h) {
