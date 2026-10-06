@@ -2,6 +2,7 @@ package com.example.utilitymod;
 
 import com.example.utilitymod.module.Module;
 import com.example.utilitymod.module.ModuleManager;
+import com.example.utilitymod.module.impl.Backtrack;
 import com.example.utilitymod.gui.ClickGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,6 +23,10 @@ public class UtilityMod {
     public void init(FMLInitializationEvent e) {
         modules = new ModuleManager();
         clickGUI = new ClickGUI();
+
+        // attaches the Backtrack packet handler whenever you connect to a server
+        MinecraftForge.EVENT_BUS.register(new Backtrack.ConnectHook());
+
         MinecraftForge.EVENT_BUS.register(this);
     }
 
