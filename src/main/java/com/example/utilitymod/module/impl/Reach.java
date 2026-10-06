@@ -37,6 +37,7 @@ public class Reach extends Module {
             Entity en = (Entity) o;
             if (en == mc.thePlayer || en.isDead || !(en instanceof EntityLivingBase)) continue;
             if (playersOnly.get() && !(en instanceof EntityPlayer)) continue;
+            if (!en.canBeCollidedWith()) continue;
 
             float b = en.getCollisionBorderSize();
             AxisAlignedBB bb = en.getEntityBoundingBox().expand(b, b, b);
@@ -48,11 +49,12 @@ public class Reach extends Module {
                 if (hit == null) continue;
                 dist = eye.distanceTo(hit.hitVec);
             }
-            if (dist >= best) continue;
+            if (dist > best) continue; // inclusive at max reach
 
-            if (!throughWalls.get()) {
+            if (!throughWalls.get() && dist > 0) {
                 Vec3 point = eye.addVector(look.xCoord * dist, look.yCoord * dist, look.zCoord * dist);
-                if (mc.theWorld.rayTraceBlocks(eye, point) != null) continue;
+                // match vanilla block-trace flags: no liquid stop, ignore non-collidable blocks
+                if (mc.theWorld.rayTraceBlocks(eye, point, false, true, false) != null) continue;
             }
             target = en;
             best = dist;
