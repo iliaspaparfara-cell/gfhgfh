@@ -1,6 +1,7 @@
 package com.example.utilitymod.module.impl;
 
 import com.example.utilitymod.module.*;
+import com.example.utilitymod.util.ColorUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,6 +30,7 @@ public class Tracers extends Module {
         GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
         GlStateManager.disableDepth();
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glLineWidth(1.5F);
         GL11.glBegin(GL11.GL_LINES);
         for (Object o : mc.theWorld.playerEntities) {
@@ -37,14 +39,16 @@ public class Tracers extends Module {
             double x = p.lastTickPosX + (p.posX - p.lastTickPosX) * pt - vx;
             double y = p.lastTickPosY + (p.posY - p.lastTickPosY) * pt - vy + p.height / 2;
             double z = p.lastTickPosZ + (p.posZ - p.lastTickPosZ) * pt - vz;
-            float dist = Math.min(1f, mc.thePlayer.getDistanceToEntity(p) / 40f);
-            GL11.glColor4f(1f - dist, dist, 0.2f, 1f);
+            int c = ColorUtil.team(p);
+            GL11.glColor4f(((c >> 16) & 255) / 255f, ((c >> 8) & 255) / 255f, (c & 255) / 255f, 1f);
             GL11.glVertex3d(look.xCoord, look.yCoord + v.getEyeHeight(), look.zCoord);
             GL11.glVertex3d(x, y, z);
         }
         GL11.glEnd();
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
         GlStateManager.enableDepth();
         GlStateManager.enableTexture2D();
+        GlStateManager.color(1f, 1f, 1f, 1f);
         GlStateManager.popMatrix();
     }
 }
