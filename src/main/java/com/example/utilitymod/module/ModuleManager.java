@@ -8,20 +8,37 @@ public class ModuleManager {
     private final List<Module> modules = new ArrayList<Module>();
 
     public ModuleManager() {
+        // combat
         modules.add(new AimAssist());
         modules.add(new AutoClicker());
+        modules.add(new Reach());
         modules.add(new Velocity());
         modules.add(new WTap());
         modules.add(new AutoBlock());
         modules.add(new Backtrack());
+        modules.add(new KillAura());
+        modules.add(new Triggerbot());
+        // movement
         modules.add(new Sprint());
-        modules.add(new Timer());
+        modules.add(new Speed());
+        modules.add(new Fly());
+        modules.add(new Step());
+        // player
         modules.add(new FastPlace());
         modules.add(new Eagle());
+        modules.add(new NoFall());
+        modules.add(new AutoTool());
+        modules.add(new ChestStealer());
+        modules.add(new Scaffold());
+        // render
         modules.add(new Fullbright());
         modules.add(new ESP());
         modules.add(new Tracers());
+        modules.add(new Zoom());
         modules.add(new ArrayListHUD());
+        // world
+        modules.add(new Timer());
+
         // enable HUD by default
         get(ArrayListHUD.class).setEnabled(true);
     }
