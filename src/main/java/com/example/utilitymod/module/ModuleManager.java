@@ -12,6 +12,8 @@ public class ModuleManager {
         modules.add(new AutoClicker());
         modules.add(new Reach());
         modules.add(new Velocity());
+        modules.add(new WTap());
+        modules.add(new AutoBlock());
         modules.add(new Sprint());
         modules.add(new Timer());
         modules.add(new FastPlace());
