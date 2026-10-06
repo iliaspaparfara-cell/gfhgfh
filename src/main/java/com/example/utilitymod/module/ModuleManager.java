@@ -13,6 +13,7 @@ public class ModuleManager {
         modules.add(new Velocity());
         modules.add(new WTap());
         modules.add(new AutoBlock());
+        modules.add(new Backtrack());
         modules.add(new Sprint());
         modules.add(new Timer());
         modules.add(new FastPlace());
