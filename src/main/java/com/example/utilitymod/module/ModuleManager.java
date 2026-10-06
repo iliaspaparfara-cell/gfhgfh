@@ -24,6 +24,7 @@ public class ModuleManager {
         modules.add(new Step());
         // player
         modules.add(new FastPlace());
+        modules.add(new Clutch());
         modules.add(new Eagle());
         modules.add(new NoFall());
         modules.add(new AutoTool());
