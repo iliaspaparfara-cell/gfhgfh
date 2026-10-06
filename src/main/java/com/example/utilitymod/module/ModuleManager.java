@@ -10,7 +10,6 @@ public class ModuleManager {
     public ModuleManager() {
         modules.add(new AimAssist());
         modules.add(new AutoClicker());
-        modules.add(new Reach());
         modules.add(new Velocity());
         modules.add(new WTap());
         modules.add(new AutoBlock());
